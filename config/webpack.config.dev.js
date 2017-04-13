@@ -1,22 +1,23 @@
 import webpack from 'webpack';
 import path from 'path';
-import postcss from 'postcss';
+import ExtractTextPlugin from 'extract-text-webpack-plugin';
 
 export default {
     devtool: 'cheap-module-polyfill',
     entry: [
-        'webpack-hot-middleware/client',
+        'eventsource-polyfill', // necessary for hot reloading with IE
+        'webpack-hot-middleware/client?reload=true',    // note that it reload the page it hot module reload
         'whatwg-fetch',
         './src/index'
     ],
     target: 'web',
     output: {
-        path: __dirname + '/dist',
+        path: path.resolve(__dirname + '../dist'),
         publicPath: '/dist',
         filename: 'bundle.js'
     },
     devServer: {
-        contentBase: './app'
+        contentBase: './src'
     },
     plugins: [
         new webpack.HotModuleReplacementPlugin(),   // enable HMR globally
@@ -31,6 +32,7 @@ export default {
             {
                 test: /\.js$/,
                 loader: 'babel-loader',
+                include: path.resolve(__dirname, './src'),
                 exclude: /node_modules/
             },
             {
