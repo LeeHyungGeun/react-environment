@@ -10,4 +10,4 @@ export default (
             <Route exact path="/about" component={AboutPage} />
         </Switch>
     </div>
-)
+);
