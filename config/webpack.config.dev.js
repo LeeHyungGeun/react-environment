@@ -25,25 +25,38 @@ export default {
         new webpack.LoaderOptionsPlugin({
             minimize: true,
             debug: false
-        })
+        }),
+        new ExtractTextPlugin('styles.css')
     ],
     module: {
         rules: [
             {
                 test: /\.js$/,
                 loader: 'babel-loader',
-                include: path.resolve(__dirname, './src'),
                 exclude: /node_modules/
             },
             {
-                test: /\.(scss)$/,
+                test: /\.(css)$/,
                 exclude: /node_modules/,
                 use: [
-                    'style-loader',
-                    'css-loader',
-                    'sass-loader'
+                    {
+                        loader: 'style-loader',
+                    },
+                    {
+                        loader: 'css-loader',
+                        options: {
+                            sourceMap: true,
+                            importLoaders: 1,
+                        }
+                    },
+                    {
+                        loader: 'postcss-loader',
+                        options: {
+                            sourceMap: 'inline',
+                        }
+                    }
                 ]
             }
         ]
-    }   
+    }
 };
