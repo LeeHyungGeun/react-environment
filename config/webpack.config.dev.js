@@ -4,17 +4,18 @@ import ExtractTextPlugin from 'extract-text-webpack-plugin';
 
 export default {
     devtool: 'cheap-module-polyfill',
-    entry: [
-        'eventsource-polyfill', // necessary for hot reloading with IE
-        'webpack-hot-middleware/client?reload=true',    // note that it reload the page it hot module reload
-        'whatwg-fetch',
-        './src/index'
-    ],
+    entry: {  
+        index: [
+            'eventsource-polyfill', // necessary for hot reloading with IE
+            'webpack-hot-middleware/client?reload=true',    // note that it reload the page it hot module reload    
+            './src/index'
+        ]
+    },
     target: 'web',
     output: {
         path: path.resolve(__dirname + '../dist'),
         publicPath: '/dist',
-        filename: 'bundle.js'
+        filename: '[name].js'
     },
     devServer: {
         contentBase: './src'
@@ -26,7 +27,7 @@ export default {
             minimize: true,
             debug: false
         }),
-        new ExtractTextPlugin('styles.css')
+        new ExtractTextPlugin('./[name].css')
     ],
     module: {
         rules: [
@@ -38,24 +39,24 @@ export default {
             {
                 test: /\.(css)$/,
                 exclude: /node_modules/,
-                use: [
-                    {
-                        loader: 'style-loader',
-                    },
-                    {
-                        loader: 'css-loader',
-                        options: {
-                            sourceMap: true,
-                            importLoaders: 1,
+                loader: ExtractTextPlugin.extract({
+                    fallback: 'style-loader',
+                    use: [
+                        {
+                            loader: 'css-loader',
+                            options: {
+                                sourceMap: true,
+                                importLoaders: 1
+                            }
+                        },
+                        {
+                            loader: 'postcss-loader',
+                            options: {
+                                sourceMap: 'inline'
+                            }
                         }
-                    },
-                    {
-                        loader: 'postcss-loader',
-                        options: {
-                            sourceMap: 'inline',
-                        }
-                    }
-                ]
+                    ]
+                })
             }
         ]
     }

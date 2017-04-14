@@ -8,14 +8,17 @@ const GLOBALS = {
 
 export default {
     devtool: 'source-map',
-    entry: [
-        'whatwg-fetch',
-        './src/index'
-    ],
+    entry: {
+        index: [
+            'whatwg-fetch',
+            './src/index'
+        ]
+    },
+    target: 'web',
     output: {
         path: path.resolve(__dirname, '../dist'),   // Note: Physical files are only output by the production build
         publicPath: '/dist',
-        filename: 'bundle.js'
+        filename: '[name].js'
     },
     devServer: {
         contentBase: './dist'
@@ -23,7 +26,7 @@ export default {
     plugins: [
         new webpack.optimize.OccurrenceOrderPlugin(),
         new webpack.DefinePlugin(GLOBALS),
-        new ExtractTextPlugin('styles.css'),
+        new ExtractTextPlugin('[name].css'),
         new webpack.optimize.UglifyJsPlugin()
     ],
     module: {
@@ -33,11 +36,25 @@ export default {
                 loader: 'babel-loader'
             },
             {
-                test: /\.(scss)$/,
+                test: /\.(css)$/,
                 exclude: /node_modules/,
-                use: ExtractTextPlugin.extract({
+                loader: ExtractTextPlugin.extract({
                     fallback: 'style-loader',
-                    use: ['css-loader', 'sass-loader']
+                    use: [
+                        {
+                            loader: 'css-loader',
+                            options: {
+                                sourceMap: true,
+                                importLoaders: 1
+                            }
+                        },
+                        {
+                            loader: 'postcss-loader',
+                            options: {
+                                sourceMap: 'inline'
+                            }
+                        }
+                    ]
                 })
             }
         ]
