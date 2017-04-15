@@ -14,7 +14,7 @@ const compiler = webpack(config);
 let webpackDevMiddlewareInstance = require('webpack-dev-middleware')(compiler, {
     noInfo: true,
     publicPath: config.output.publicPath,
-    quiet: true,    // display nothing to the console
+    quiet: true    // display nothing to the console
 });
 app.use(webpackDevMiddlewareInstance);
 

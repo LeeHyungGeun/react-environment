@@ -68,6 +68,32 @@ export default {
                         }
                     ]
                 })
+            },
+            {
+                test: /\.(jpe?g|png|gif|svg)$/,
+                use: [
+                    {
+                        loader: 'file-loader',
+                        options: {
+                            name: 'images/[name].[ext]'
+                        }
+                    }
+                ]
+            },
+            {
+                test: /\.(woff2?|svg)$/,
+                loader: 'url-loader',
+                options: {
+                    limit: 10000,
+                    name: 'fonts/[name].[ext]'
+                }
+            },
+            {
+                test: /\.(ttf|eot)$/,
+                loader: 'file-loader',
+                options: {
+                    name: 'fonts/[name].[ext]'
+                }
             }
         ]
     }   
