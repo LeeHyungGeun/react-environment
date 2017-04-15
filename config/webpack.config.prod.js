@@ -1,6 +1,7 @@
 import webpack from 'webpack';
 import path from 'path';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 
 const GLOBALS = {
     'process.env.NODE_ENV': JSON.stringify('production')
@@ -16,7 +17,7 @@ export default {
     },
     target: 'web',
     output: {
-        path: path.resolve(__dirname, '../dist'),   // Note: Physical files are only output by the production build
+        path: path.join(__dirname, '../dist'),   // Note: Physical files are only output by the production build
         publicPath: '/dist',
         filename: '[name].js'
     },
@@ -27,7 +28,18 @@ export default {
         new webpack.optimize.OccurrenceOrderPlugin(),
         new webpack.DefinePlugin(GLOBALS),
         new ExtractTextPlugin('[name].css'),
-        new webpack.optimize.UglifyJsPlugin()
+        new webpack.optimize.UglifyJsPlugin(),
+        new HtmlWebpackPlugin({
+            title: 'index',
+            minify: {
+                collapseWhitespace: true,
+                removeComments: true
+            },
+            hash: true,
+            chunk: ['index'],
+            filename: 'index.html',
+            template: './src/index.html'
+        })
     ],
     module: {
         rules: [

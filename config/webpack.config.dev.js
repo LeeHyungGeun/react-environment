@@ -1,6 +1,7 @@
 import webpack from 'webpack';
 import path from 'path';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 
 export default {
     devtool: 'cheap-module-polyfill',
@@ -13,7 +14,7 @@ export default {
     },
     target: 'web',
     output: {
-        path: path.resolve(__dirname + '../dist'),
+        path: path.join(__dirname, 'dist'),
         publicPath: '/dist',
         filename: '[name].js'
     },
@@ -27,7 +28,18 @@ export default {
             minimize: true,
             debug: false
         }),
-        new ExtractTextPlugin('./[name].css')
+        new ExtractTextPlugin('[name].css'),
+        new HtmlWebpackPlugin({
+            title: 'index',
+            minify: {
+                collapseWhitespace: true,
+                removeComments: true
+            },
+            hash: true,
+            chunk: ['index'],
+            filename: 'index.html',
+            template: './src/index.html'
+        })
     ],
     module: {
         rules: [
