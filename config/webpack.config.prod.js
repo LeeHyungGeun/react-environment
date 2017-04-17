@@ -39,7 +39,13 @@ export default {
             chunk: ['index'],
             filename: 'index.html',
             template: './src/index.html'
-        })
+        }),
+        new HtmlWebpackPlugin({
+            title: 'Chenliuyan Test',
+            minify: {
+                collapseWhitespace: true,
+                removeComments: true
+            }
     ],
     module: {
         rules: [
@@ -57,7 +63,8 @@ export default {
                             loader: 'css-loader',
                             options: {
                                 sourceMap: true,
-                                importLoaders: 1
+                                importLoaders: 1,
+                                modules: true
                             }
                         },
                         {
