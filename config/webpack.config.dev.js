@@ -10,11 +10,6 @@ export default {
             'eventsource-polyfill', // necessary for hot reloading with IE
             'webpack-hot-middleware/client?reload=true',    // note that it reload the page it hot module reload    
             './src/index'
-        ],
-        chenliuyan: [
-            'eventsource-polyfill', // necessary for hot reloading with IE
-            'webpack-hot-middleware/client?reload=true',    // note that it reload the page it hot module reload    
-            './src/chenliuyan'
         ]
     },
     target: 'web',
@@ -48,17 +43,6 @@ export default {
             chunk: ['index'],
             filename: 'index.html',
             template: './src/index.html'
-        }),
-        new HtmlWebpackPlugin({
-            title: 'Chenliuyan Test',
-            minify: {
-                collapseWhitespace: true,
-                removeComments: true
-            },
-            hash: true,
-            chunk: ['chenliuyan'],
-            filename: 'index.html',
-            template: './src/chenliuyan.html'
         })
     ],
     module: {
@@ -70,7 +54,6 @@ export default {
             },
             {
                 test: /\.(css)$/,
-                exclude: /node_modules/,
                 loader: ExtractTextPlugin.extract({
                     fallback: 'style-loader',
                     use: [
@@ -79,6 +62,7 @@ export default {
                             options: {
                                 sourceMap: true,
                                 importLoaders: 1,
+                                localIdentName: '[local]',  // [name]__[local]--[hash:base64:5] -> name: module name, local: original name
                                 modules: true
                             }
                         },

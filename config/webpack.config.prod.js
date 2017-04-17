@@ -39,13 +39,7 @@ export default {
             chunk: ['index'],
             filename: 'index.html',
             template: './src/index.html'
-        }),
-        new HtmlWebpackPlugin({
-            title: 'Chenliuyan Test',
-            minify: {
-                collapseWhitespace: true,
-                removeComments: true
-            }
+        })
     ],
     module: {
         rules: [
@@ -54,8 +48,7 @@ export default {
                 loader: 'babel-loader'
             },
             {
-                test: /\.(css)$/,
-                exclude: /node_modules/,
+                test: /\.css$/,
                 loader: ExtractTextPlugin.extract({
                     fallback: 'style-loader',
                     use: [
@@ -64,6 +57,7 @@ export default {
                             options: {
                                 sourceMap: true,
                                 importLoaders: 1,
+                                localIdentName: '[local]',  // [name]__[local]--[hash:base64:5] -> name: module name, local: original name
                                 modules: true
                             }
                         },
