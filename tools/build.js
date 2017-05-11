@@ -1,7 +1,7 @@
 // Allowing console calls below since this is a build file.
 /*eslint-disable no-console */
 import webpack from 'webpack';
-import webpackConfig from '../config/webpack.config.prod';
+import webpackConfig from '../configs/webpack.config.prod';
 import colors from 'colors';
 
 process.env.NODE_ENV = 'production';    // this assures the Babel dev config ( for hot reloading)

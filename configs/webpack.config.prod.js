@@ -36,7 +36,7 @@ export default {
                 removeComments: true
             },
             hash: true,
-            chunk: ['index'],
+            chunks: ['index'],
             filename: 'index.html',
             template: './src/index.html'
         })
